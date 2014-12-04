@@ -1,5 +1,14 @@
 $(function () {
-  var map = L.map('map', {
+  var roads = L.geoJson(null, {
+    style: function (feature) {
+      return {
+        color: ['#ca0020', '#f4a582', '#92c5de', '#0571b0'][Math.floor(Math.random() * 4)],
+        weight: 3,
+        opacity: 1
+      }
+    }
+  }),
+  map = L.map('map', {
     center: [39.952473, -75.164106],
     zoom: 10,
     layers: [
@@ -9,25 +18,17 @@ $(function () {
       	minZoom: 0,
       	maxZoom: 18
       }),
+      roads,
       L.tileLayer('http://openmapsurfer.uni-hd.de/tiles/adminb/x={x}&y={y}&z={z}', {
       	minZoom: 0,
       	maxZoom: 19,
       	attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       })
     ]
-  }),
-  roads = L.geoJson(null, {
-    style: function (feature) {
-      return {
-        color: ['#ca0020', '#f4a582', '#92c5de', '#0571b0'][Math.floor(Math.random() * 4)],
-        weight: 3,
-        opacity: 1
-      }
-    }
   })
   
   $.getJSON('data/local_roads.geojson', function (data) {
-      roads.addData(data).addTo(map)
+      roads.addData(data)
       map.fitBounds(roads.getBounds())
   })
 
