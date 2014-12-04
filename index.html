@@ -34,6 +34,11 @@
       #map {
         height: 100%;
       }
+      .offcanvas-btn {
+        position: absolute
+        top: 0;
+        right: 0;
+      }
       /*
        * Off Canvas
        * --------------------------------------------------
@@ -108,9 +113,9 @@
 
         <div class="col-xs-12 col-sm-9 map-container">
           <div id="map"></div>
-          <p class="pull-right visible-xs">
+          <div class="offcanvas-btn visible-xs">
             <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle Info</button>
-          </p>
+          </div>
         </div><!--/.col-xs-12.col-sm-9-->
 
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
