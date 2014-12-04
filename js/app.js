@@ -16,7 +16,11 @@ $(function () {
       })
     ]
   }),
-  roads = L.geoJson(null)
+  roads = L.geoJson(null, {
+    style: function (feature) {
+      return {color: ['#ca0020', '#f4a582', '#92c5de', '#0571b0'][Math.floor(Math.random() * 4)]};
+    }
+  })
   
   $.getJSON('data/local_roads.geojson', function (data) {
       roads.addData(data)
@@ -27,4 +31,3 @@ $(function () {
     $('.row-offcanvas').toggleClass('active')
   })
 })
-    
