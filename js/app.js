@@ -1,14 +1,5 @@
 $(function () {
-  var roads = L.geoJson(null, {
-    style: function (feature) {
-      return {
-        color: ['#ca0020', '#f4a582', '#92c5de', '#0571b0'][Math.floor(Math.random() * 4)],
-        weight: 3,
-        opacity: 1
-      }
-    }
-  }),
-  map = L.map('map', {
+  var map = L.map('map', {
     center: [39.952473, -75.164106],
     zoom: 10,
     layers: [
@@ -20,6 +11,15 @@ $(function () {
       })
     ]
   }),
+  roads = L.geoJson(null, {
+    style: function (feature) {
+      return {
+        color: ['#ca0020', '#f4a582', '#92c5de', '#0571b0'][Math.floor(Math.random() * 4)],
+        weight: 3,
+        opacity: 1
+      }
+    }
+  }).addTo(map),
   topPane = map._createPane('leaflet-top-pane', map.getPanes().overlayPane),
   topLayer = L.tileLayer('http://openmapsurfer.uni-hd.de/tiles/adminb/x={x}&y={y}&z={z}', {
   	minZoom: 0,
