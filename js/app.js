@@ -17,20 +17,22 @@ $(function () {
       	subdomains: 'abcd',
       	minZoom: 0,
       	maxZoom: 18
-      }),
-      roads,
-      L.tileLayer('http://openmapsurfer.uni-hd.de/tiles/adminb/x={x}&y={y}&z={z}', {
-      	minZoom: 0,
-      	maxZoom: 19,
-      	attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       })
     ]
-  })
+  }),
+  topPane = map._createPane('leaflet-top-pane', map.getPanes().overlayPane),
+  topLayer = L.tileLayer('http://openmapsurfer.uni-hd.de/tiles/adminb/x={x}&y={y}&z={z}', {
+  	minZoom: 0,
+  	maxZoom: 19,
+  	attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).setZIndex(20).addTo(map)
   
   $.getJSON('data/local_roads.geojson', function (data) {
       roads.addData(data)
       map.fitBounds(roads.getBounds())
   })
+  
+  topPane.appendChild(topLayer.getContainer())
 
   $(document).on('click', '[data-toggle="offcanvas"]', function () {
     $('.row-offcanvas').toggleClass('active')
