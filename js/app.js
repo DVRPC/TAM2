@@ -23,7 +23,7 @@ $(function () {
   })
   
   $.getJSON('data/local_roads.geojson', function (data) {
-      roads.addData(data)
+      roads.addData(data).addTo(map)
       map.fitBounds(roads.getBounds())
   })
 
