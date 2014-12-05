@@ -64,6 +64,6 @@ $(function () {
     $('.row-offcanvas').toggleClass('active')
   }).on('click', '.repair-type-list a', function (e) {
   	e.preventDefault()
-  	$(this).parent('li').toggleClass('active').parent().parent().addClass('open')
+  	$(this).parent('li').toggleClass('active').closest('.btn-group').next('.help-block').text($(this).closest('ul').find('.active').map(function () { return $(this).text()}).get().join(', '))
   })
 })
