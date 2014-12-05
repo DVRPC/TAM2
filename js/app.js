@@ -28,9 +28,23 @@ $(function () {
         weight: 2,
         opacity: 1
       }
+    },
+    onEachFeature: function (feature, layer) {
+    	layer.bindLabel(feature.properties.LR_STREET_NAME + ': ' + feature.properties.BEGIN_TERM_STREET_NAME + ' - ' + feature.properties.END_TERM_STREET_NAME)
     }
-  }).on('click', function () {
-    
+  }).on('click', function (feature, layer) {
+  	var modal = $('.modal'),
+  	  type
+  	  
+	  ['BITUMINOUS_MILES', 'BRICK_MILES', 'CONCRETE_MILES', 'GRAVEL_MILES', 'SEAL_COATED_MILES', 'UNIMPROVED_MILES'].some(function (x) {
+	    if (feature.properties.hasOwnProperty(x) && feature.properties[x] > 0) {
+	      return type = x
+	    }
+	  })
+  	modal.find('.property-road-segment').text(feature.properties.LR_STREET_NAME + ': ' + feature.properties.BEGIN_TERM_STREET_NAME + ' - ' + feature.properties.END_TERM_STREET_NAME)
+  	modal.find('.property-road-segment-type').text(type)
+  	modal.find('.property-road-segment-length').text(feature.properties.SEG_LENGTH_MILES)
+  	modal.modal('show')
   }).addTo(map),
   topPane = map._createPane('leaflet-top-pane', map.getPanes().overlayPane),
   topLayer = L.tileLayer('http://openmapsurfer.uni-hd.de/tiles/adminb/x={x}&y={y}&z={z}', {
