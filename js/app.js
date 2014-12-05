@@ -62,5 +62,8 @@ $(function () {
 
   $(document).on('click', '[data-toggle="offcanvas"]', function () {
     $('.row-offcanvas').toggleClass('active')
+  }).on('click', '.repair-type-list a', function (e) {
+  	e.preventDefault()
+  	$(this).parent('li').toggleClass('active')
   })
 })
