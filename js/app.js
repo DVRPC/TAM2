@@ -32,18 +32,18 @@ $(function () {
     onEachFeature: function (feature, layer) {
     	layer.bindLabel(feature.properties.LR_STREET_NAME + ': ' + feature.properties.BEGIN_TERM_STREET_NAME + ' - ' + feature.properties.END_TERM_STREET_NAME)
     }
-  }).on('click', function (feature, layer) {
+  }).on('click', function (e) {
   	var modal = $('.modal'),
   	  type
   	  
 	  ['BITUMINOUS_MILES', 'BRICK_MILES', 'CONCRETE_MILES', 'GRAVEL_MILES', 'SEAL_COATED_MILES', 'UNIMPROVED_MILES'].some(function (x) {
-	    if (feature.properties.hasOwnProperty(x) && feature.properties[x] > 0) {
+	    if (e.layer.feature.properties.hasOwnProperty(x) && e.layer.feature.properties[x] > 0) {
 	      return type = x
 	    }
 	  })
-  	modal.find('.property-road-segment').text(feature.properties.LR_STREET_NAME + ': ' + feature.properties.BEGIN_TERM_STREET_NAME + ' - ' + feature.properties.END_TERM_STREET_NAME)
+  	modal.find('.property-road-segment').text(e.layer.feature.properties.LR_STREET_NAME + ': ' + e.layer.feature.properties.BEGIN_TERM_STREET_NAME + ' - ' + e.layer.feature.properties.END_TERM_STREET_NAME)
   	modal.find('.property-road-segment-type').text(type)
-  	modal.find('.property-road-segment-length').text(feature.properties.SEG_LENGTH_MILES)
+  	modal.find('.property-road-segment-length').text(e.layer.feature.properties.SEG_LENGTH_MILES)
   	modal.modal('show')
   }).addTo(map),
   topPane = map._createPane('leaflet-top-pane', map.getPanes().overlayPane),
