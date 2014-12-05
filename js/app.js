@@ -15,7 +15,7 @@ $(function () {
     style: function (feature) {
       return {
         color: ['#ca0020', '#f4a582', '#92c5de', '#0571b0'][Math.floor(Math.random() * 4)],
-        weight: 3,
+        weight: 2,
         opacity: 1
       }
     }
