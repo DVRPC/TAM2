@@ -54,8 +54,8 @@ $(function () {
   }).setZIndex(20).addTo(map)
   
   $.getJSON('data/local_roads.geojson', function (data) {
-      roads.addData(data)
-      map.fitBounds(roads.getBounds())
+    roads.addData(data)
+    map.fitBounds(roads.getBounds())
   })
   
   topPane.appendChild(topLayer.getContainer())
@@ -64,6 +64,6 @@ $(function () {
     $('.row-offcanvas').toggleClass('active')
   }).on('click', '.repair-type-list a', function (e) {
   	e.preventDefault()
-  	$(this).parent('li').toggleClass('active')
+  	$(this).parent('li').toggleClass('active').parent().parent().addClass('open')
   })
 })
