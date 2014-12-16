@@ -169,7 +169,6 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
@@ -194,31 +193,32 @@
         </div><!--/.sidebar-offcanvas-->
       </div><!--/row-->
     </div><!--/.container-->
-    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    
+    <div class="modal fade bs-example-modal-lg" id="modal-repair" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-body">
             <form class="form-horizontal" role="form">
               <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">Road Segment</label>
+                <label class="col-sm-2 control-label">Road Segment</label>
                 <div class="col-sm-10">
                   <p class="form-control-static property-road-segment"></p>
                 </div>
               </div>
               <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">Surface Type</label>
+                <label class="col-sm-2 control-label">Surface Type</label>
                 <div class="col-sm-10">
                   <p class="form-control-static property-road-segment-type"></p>
                 </div>
               </div>
               <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">Segment Length</label>
+                <label class="col-sm-2 control-label">Segment Length</label>
                 <div class="col-sm-10">
                   <p class="form-control-static property-road-segment-length"></p>
                 </div>
               </div>
               <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">Repair Type(s)</label>
+                <label class="col-sm-2 control-label">Repair Type(s)</label>
                 <div class="col-sm-10">
                   <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -251,6 +251,47 @@
         </div>
       </div>
     </div>
+    
+    <div class="modal fade" id="about">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">About</h4>
+          </div>
+          <div class="modal-body">
+            <p class="lead">About Text</p>
+            <p>This web page is a public resource of general information. The Delaware Valley Regional Planning Commission (DVRPC) makes no warranty, representation, or guarantee as to the content, sequence, accuracy, timeliness, or completeness of any of the spatial data or database information provided herein. DVRPC and partner state, local, and other agencies shall assume no liability for errors, omissions, or inaccuracies in the information provided regardless of how caused; or any decision made or action taken or not taken by any person relying on any information or data furnished within.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    
+    <div class="modal fade" id="contact">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">Contact</h4>
+          </div>
+          <div class="modal-body">
+            <address>
+              <strong>Jerry Coyne</strong><br>
+              Manager of Transportation Studies<br>
+              Delaware Valley Regional Planning Commission<br>
+              <a href="mailto:jcoyne@dvrpc.org">jcoyne@dvrpc.org</a><br>
+              <abbr title="Phone">P:</abbr> (215) 238-2850
+            </address>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
