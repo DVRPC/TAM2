@@ -65,5 +65,11 @@ $(function () {
   }).on('click', '.repair-type-list a', function (e) {
   	e.preventDefault()
   	$(this).parent('li').toggleClass('active').closest('.btn-group').next('.help-block').text($(this).closest('ul').find('.active').map(function () { return $(this).text()}).get().join(', '))
+  }).on('click', '.btn-submit-repair', function (e) {
+  	e.preventDefault()
+  	var modal = $(this).closest('.modal').modal('hide')
+  	$('.list-repairs').append('<li class="list-group-item"><h4 class="list-group-item-heading">' + modal.find('.property-road-segment').text() + '</h4><p class="list-group-item-text">' + modal.find('.help-block').text() + '</p></li>')
+  }).on('dblclick', '.list-repairs>li', function () {
+  	confirm('Are you sure you want to delete this row?') && $(this).remove()
   })
 })
