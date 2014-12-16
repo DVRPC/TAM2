@@ -33,7 +33,7 @@ $(function () {
     	layer.bindLabel(feature.properties.LR_STREET_NAME + ': ' + feature.properties.BEGIN_TERM_STREET_NAME + ' - ' + feature.properties.END_TERM_STREET_NAME)
     }
   }).on('click', function (e) {
-  	var modal = $('.modal'),
+  	var modal = $('#modal-repair'),
   	  type
   	  
 	  ['BITUMINOUS_MILES', 'BRICK_MILES', 'CONCRETE_MILES', 'GRAVEL_MILES', 'SEAL_COATED_MILES', 'UNIMPROVED_MILES'].some(function (x) {
