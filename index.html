@@ -31,8 +31,14 @@
       }
       body>.container>.row,
       body>.container>.row>.map-container,
-      #map {
+      #map,
+      #sidebar {
         height: 100%;
+      }
+      #btn-create {
+        position: absolute;
+        bottom: 0;
+        right: 0;
       }
       .leaflet-top-pane {
         pointer-events: none;
@@ -190,6 +196,7 @@
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
           <h2>Repair List</h2>
           <ul class="list-group list-repairs"></ul>
+          <button class="btn btn-primary" id="btn-create">Create Spreadsheet</button>
         </div><!--/.sidebar-offcanvas-->
       </div><!--/row-->
     </div><!--/.container-->
