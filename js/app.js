@@ -43,7 +43,7 @@ $(function () {
   roads = L.geoJson(null, {
     style: function (feature) {
       return {
-        color: ['#222', '#960700', '#954600', '#959000', '#4F9500'][+feature.properties.STRUCT_CONDITION_CD],
+        color: ['#222', '#FF0C00', '#FF7800', '#FFF600', '#87FF00'][+feature.properties.STRUCT_CONDITION_CD],
         weight: 2,
         opacity: 1
       }
@@ -63,7 +63,7 @@ $(function () {
   	modal.find('.property-road-segment').text(e.layer.feature.properties.LR_STREET_NAME + ': ' + e.layer.feature.properties.BEGIN_TERM_STREET_NAME + ' - ' + e.layer.feature.properties.END_TERM_STREET_NAME)
   	modal.find('.property-road-segment-type').text(type.split('_')[0])
   	modal.find('.property-road-segment-length').text(e.layer.feature.properties.SEG_LENGTH_MILES)
-  	modal.find('.property-road-segment-area').text(e.layer.feature.properties.CARTWAY_WIDTH_FT > 0 ? e.layer.feature.properties.CARTWAY_WIDTH_FT / 3 * e.layer.feature.properties.SEG_LENGTH_MILES * 1760 : 0)
+  	modal.find('.property-road-segment-area').text(e.layer.feature.properties.CARTWAY_WIDTH_FT / 3 * e.layer.feature.properties.SEG_LENGTH_MILES * 1760)
   	modal.modal('show')
   }).addTo(map),
   topPane = map._createPane('leaflet-top-pane', map.getPanes().overlayPane),
