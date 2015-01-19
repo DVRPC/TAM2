@@ -61,7 +61,7 @@ $(function () {
 	    }
 	  })
   	modal.find('.property-road-segment').text(e.layer.feature.properties.LR_STREET_NAME + ': ' + e.layer.feature.properties.BEGIN_TERM_STREET_NAME + ' - ' + e.layer.feature.properties.END_TERM_STREET_NAME)
-  	modal.find('.property-road-segment-type').text(type)
+  	modal.find('.property-road-segment-type').text(type.split('_')[0])
   	modal.find('.property-road-segment-length').text(e.layer.feature.properties.SEG_LENGTH_MILES)
   	modal.modal('show')
   }).addTo(map),
