@@ -34,11 +34,14 @@ $(function () {
     center: [40.2837, -75.6143],
     zoom: 10,
     layers: [
-      L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-      	attribution: '&copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
-      	subdomains: 'abcd',
-      	minZoom: 0,
-      	maxZoom: 18
+      L.tileLayer('http://oatile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg', {
+	attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency',
+	subdomains: '1234'
+      }),
+      L.tileLayer('http://{s}.tile.openstreetmap.se/hydda/roads_and_labels/{z}/{x}/{y}.png', {
+	minZoom: 0,
+	maxZoom: 18,
+	attribution: 'Tiles courtesy of <a href="http://openstreetmap.se/" target="_blank">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       })
     ]
   }),
