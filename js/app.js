@@ -43,7 +43,7 @@ $(function () {
   roads = L.geoJson(null, {
     style: function (feature) {
       return {
-        color: ['#4E504C', '#964541', '#95673E', '#95923E', '#6C953E'][+feature.properties.STRUCT_CONDITION_CD],
+        color: ['#222', '#960700', '#954600', '#959000', '#4F9500'][+feature.properties.STRUCT_CONDITION_CD],
         weight: 2,
         opacity: 1
       }
