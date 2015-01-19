@@ -13,15 +13,17 @@ function RoadSegment(opts) {
     roadSegment: opts.roadSegment || '',
     surfaceType: opts.surfaceType || '',
     segmentLength: opts.segmentLength || 0,
+    segmentArea: opts.segmentArea || 0,
     repairTypes: opts.repairTypes || []
   }
 }
 
 function updateDownloadURL(roadSegments) {
-  var csvArray = ['Road Segment,Surface Type,Repair Type,Segment Length,Cost per Unit,Total Cost']
+  var csvArray = ['Road Segment,Surface Type,Repair Type,Segment Length,Units,Cost per Unit,Total Cost'],
+    linearRepairs = ['Shoulder Cut', 'Double-Yellow Centerline', 'Single-White Edge Line', 'Guide Rail']
   roadSegments.forEach(function (rs) {
     rs.repairTypes.forEach(function (repair) {
-      csvArray.push([rs.roadSegment, rs.surfaceType, repair, rs.segmentLength,'',''].join(','))
+      csvArray.push([rs.roadSegment, rs.surfaceType, repair, $.inArray(repair, linearRepairs) > -1 ? rs.segmentLength * 5280 : rs.segmentArea, $.inArray(repair, linearRepairs) > -1 ? 'lf' : 'sq yd', '', ''].join(','))
     })
   })
   $('.btn-create').attr('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvArray.join('\n')))
@@ -63,6 +65,7 @@ $(function () {
   	modal.find('.property-road-segment').text(e.layer.feature.properties.LR_STREET_NAME + ': ' + e.layer.feature.properties.BEGIN_TERM_STREET_NAME + ' - ' + e.layer.feature.properties.END_TERM_STREET_NAME)
   	modal.find('.property-road-segment-type').text(type.split('_')[0])
   	modal.find('.property-road-segment-length').text(e.layer.feature.properties.SEG_LENGTH_MILES)
+  	modal.find('.property-road-segment-area').text(e.layer.feature.properties.CARTWAY_WIDTH_FT > 0 ? e.layer.feature.properties.CARTWAY_WIDTH_FT / 3 * e.layer.feature.properties.SEG_LENGTH_MILES * 1760 : 0)
   	modal.modal('show')
   }).addTo(map),
   topPane = map._createPane('leaflet-top-pane', map.getPanes().overlayPane),
@@ -93,6 +96,7 @@ $(function () {
 	    roadSegment: modal.find('.property-road-segment').text(),
 	    surfaceType: modal.find('.property-road-segment-type').text(),
 	    segmentLength: modal.find('.property-road-segment-length').text(),
+	    segmentArea: modal.find('.property-road-segment-area').text(),
 	    repairTypes: modal.find('.help-block').text().split(', ')
 	  }))
   	$('.list-repairs').append('<li class="list-group-item"><h4 class="list-group-item-heading">' + modal.find('.property-road-segment').text() + '</h4><p class="list-group-item-text">' + modal.find('.help-block').text() + '</p></li>')
