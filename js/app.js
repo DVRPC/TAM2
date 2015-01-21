@@ -85,7 +85,7 @@ $(function () {
   	modal.find('.property-road-segment-type').text(type.split('_')[0])
   	modal.find('.property-road-segment-condition').text(condition[+e.layer.feature.properties.STRUCT_CONDITION_CD])
   	modal.find('.property-road-segment-length').text(e.layer.feature.properties.SEG_LENGTH_MILES)
-  	modal.find('.property-road-segment-mcd').text(e.layer.feature.properties.MUNICIPALITY_CD)
+  	modal.find('.property-road-segment-mcd').text(mcds[e.layer.feature.properties.MUNICIPALITY_CD])
   	modal.find('.property-road-segment-owner').text(e.layer.feature.properties.LR_OWNER_CD)
   	modal.find('.property-road-segment-cartway').text(e.layer.feature.properties.CARTWAY_WIDTH_FT)
   	modal.find('.property-road-segment-road').text(e.layer.feature.properties.ROAD_TYPE_CD)
