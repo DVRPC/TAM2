@@ -35,6 +35,15 @@ $(function () {
   var colors = ['#444', '#FF0C00', '#FF7800', '#FFF600', '#87FF00'],
   condition = ['Unknown', 'Poor', 'Fair', 'Good', 'Excellent'],
   mcds = {
+  	'15206': '',
+  	'15228': '',
+  	'46106': '',
+  	'46112': '',
+  	'46114': '',
+  	'46201': '',
+  	'46212': '',
+  	'46416': ''
+  },
   Legend = L.Control.extend({
   	onAdd: function () {
   		var container = L.DomUtil.create('div', 'legend-control'),
