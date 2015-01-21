@@ -22,7 +22,7 @@ function RoadSegment(opts) {
 
 function updateDownloadURL(roadSegments) {
   var csvArray = ['Road Segment,Surface Type,Repair Type,Segment Length,Units,Cost per Unit,Total Cost'],
-    linearRepairs = ['Shoulder Cut', 'Double-Yellow Centerline', 'Single-White Edge Line', 'Guide Rail']
+    linearRepairs = ['Shoulder Cut', 'Double-Yellow Centerline', 'Single-White Edge Line', 'Crack Seal', 'Guide Rail']
   roadSegments.forEach(function (rs) {
     rs.repairTypes.forEach(function (repair) {
       csvArray.push([rs.roadSegment, rs.surfaceType, repair, $.inArray(repair, linearRepairs) > -1 ? rs.segmentLength * 5280 : rs.segmentArea, $.inArray(repair, linearRepairs) > -1 ? 'lf' : 'sq yd', '', ''].join(','))
@@ -32,15 +32,26 @@ function updateDownloadURL(roadSegments) {
 }
 
 $(function () {
-  var map = L.map('map', {
+  var colors = ['#444', '#FF0C00', '#FF7800', '#FFF600', '#87FF00'],
+  Legend = L.Control.extend({
+  	onAdd: function () {
+  		var container = L.DomUtil.create('div', 'legend-control'),
+  			condition = ['Unknown', 'Poor', 'Fair', 'Good', 'Excellent']
+  		colors.forEach(function (c, i) {
+  			container.innerHTML += '<i style="background-color: ' + c + ';"></i> ' + condition[i] + '<br/>'
+  		})
+  		return container
+  	}
+  }),
+  map = L.map('map', {
     center: [40.2837, -75.6143],
     zoom: 10,
-    layers: [new L.Google()]
-  }),
+    layers: [new L.Google('HYBRID')]
+  }).addControl(new Legend({position: 'bottomleft'})),
   roads = L.geoJson(null, {
     style: function (feature) {
       return {
-        color: ['#222', '#FF0C00', '#FF7800', '#FFF600', '#87FF00'][+feature.properties.STRUCT_CONDITION_CD],
+        color: colors[+feature.properties.STRUCT_CONDITION_CD],
         weight: 2,
         opacity: 1
       }
