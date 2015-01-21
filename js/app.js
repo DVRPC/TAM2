@@ -36,8 +36,10 @@ $(function () {
   Legend = L.Control.extend({
   	onAdd: function () {
   		var container = L.DomUtil.create('div', 'legend-control'),
-  			condition = ['Unknown', 'Poor', 'Fair', 'Good', 'Excellent']
-  		colors.forEach(function (c, i) {
+  			condition = ['Excellent', 'Good', 'Fair', 'Poor', 'Unknown']
+ 
+  		container.innerHTML += '<h4 style="margin: 0 0 5px;">Condition</h4>'
+  		colors.reverse().forEach(function (c, i) {
   			container.innerHTML += '<i style="background-color: ' + c + ';"></i> ' + condition[i] + '<br/>'
   		})
   		return container
