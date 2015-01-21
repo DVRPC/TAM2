@@ -33,14 +33,16 @@ function updateDownloadURL(roadSegments) {
 
 $(function () {
   var colors = ['#444', '#FF0C00', '#FF7800', '#FFF600', '#87FF00'],
+  condition = ['Unknown', 'Poor', 'Fair', 'Good', 'Excellent'],
+  mcds = {
   Legend = L.Control.extend({
   	onAdd: function () {
   		var container = L.DomUtil.create('div', 'legend-control'),
-  			condition = ['Excellent', 'Good', 'Fair', 'Poor', 'Unknown']
+  			conditions = condition.slice().reverse()
  
   		container.innerHTML += '<h4 style="margin: 0 0 5px;">Condition</h4>'
   		colors.slice().reverse().forEach(function (c, i) {
-  			container.innerHTML += '<i style="background-color: ' + c + ';"></i> ' + condition[i] + '<br/>'
+  			container.innerHTML += '<i style="background-color: ' + c + ';"></i> ' + conditions[i] + '<br/>'
   		})
   		return container
   	}
@@ -72,7 +74,14 @@ $(function () {
 	  })
   	modal.find('.property-road-segment').text(e.layer.feature.properties.LR_STREET_NAME + ': ' + e.layer.feature.properties.BEGIN_TERM_STREET_NAME + ' - ' + e.layer.feature.properties.END_TERM_STREET_NAME)
   	modal.find('.property-road-segment-type').text(type.split('_')[0])
+  	modal.find('.property-road-segment-condition').text(condition[+e.layer.feature.properties.STRUCT_CONDITION_CD])
   	modal.find('.property-road-segment-length').text(e.layer.feature.properties.SEG_LENGTH_MILES)
+  	modal.find('.property-road-segment-mcd').text(e.layer.feature.properties.MUNICIPALITY_CD)
+  	modal.find('.property-road-segment-owner').text(e.layer.feature.properties.LR_OWNER_CD)
+  	modal.find('.property-road-segment-cartway').text(e.layer.feature.properties.CARTWAY_WIDTH_FT)
+  	modal.find('.property-road-segment-road').text(e.layer.feature.properties.ROAD_TYPE_CD)
+  	modal.find('.property-road-segment-liquidfuels').text(e.layer.feature.properties.IS_LIQUID_FUELS_ROAD)
+  	modal.find('.property-road-segment-private').text(e.layer.feature.properties.IS_PRIVATE_ROAD)
   	modal.find('.property-road-segment-area').text(e.layer.feature.properties.CARTWAY_WIDTH_FT / 3 * e.layer.feature.properties.SEG_LENGTH_MILES * 1760)
   	modal.modal('show')
   }).addTo(map),
