@@ -84,6 +84,8 @@ $(function () {
   	modal.find('.property-road-segment').text(e.layer.feature.properties.LR_STREET_NAME + ': ' + e.layer.feature.properties.BEGIN_TERM_STREET_NAME + ' - ' + e.layer.feature.properties.END_TERM_STREET_NAME)
   	modal.find('.property-road-segment-type').text(type.split('_')[0])
   	modal.find('.property-road-segment-condition').text(condition[+e.layer.feature.properties.STRUCT_CONDITION_CD])
+  	modal.find('.property-road-segment-federalaid').text(e.layer.feature.properties.IS_FED_AID)
+  	modal.find('.property-road-segment-act32').text(e.layer.feature.properties.ACT32)
   	modal.find('.property-road-segment-length').text(e.layer.feature.properties.SEG_LENGTH_MILES)
   	modal.find('.property-road-segment-mcd').text(mcds[e.layer.feature.properties.MUNICIPALITY_CD])
   	modal.find('.property-road-segment-owner').text(e.layer.feature.properties.LR_OWNER_CD)
