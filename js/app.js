@@ -110,6 +110,8 @@ $(function () {
   })
   
   topPane.appendChild(topLayer.getContainer())
+  
+  $('.page-last-modified').text(document.lastModified.split[' '][0])
 
   $(document).on('click', '[data-toggle="offcanvas"]', function () {
     $('.row-offcanvas').toggleClass('active')
