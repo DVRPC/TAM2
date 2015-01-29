@@ -12,6 +12,8 @@ L.Google=L.Class.extend({includes:L.Mixin.Events,options:{minZoom:0,maxZoom:20,t
 //https://github.com/jieter/Leaflet.encoded
 !function(){"use strict";var e=function(e){return e="number"==typeof e?{precision:e}:e||{},e.precision=e.precision||5,e.factor=e.factor||Math.pow(10,e.precision),e.dimension=e.dimension||2,e},n={encode:function(n,o){o=e(o);for(var r=[],t=0,i=n.length;i>t;++t){var d=n[t];if(2===o.dimension)r.push(d.lat||d[0]),r.push(d.lng||d[1]);else for(var c=0;c<o.dimension;++c)r.push(d[c])}return this.encodeDeltas(r,o)},decode:function(n,o){o=e(o);for(var r=this.decodeDeltas(n,o),t=[],i=0,d=r.length;i+(o.dimension-1)<d;){for(var c=[],s=0;s<o.dimension;++s)c.push(r[i++]);t.push(c)}return t},encodeDeltas:function(n,o){o=e(o);for(var r=[],t=0,i=n.length;i>t;)for(var d=0;d<o.dimension;++d,++t){var c=n[t],s=c-(r[d]||0);r[d]=c,n[t]=s}return this.encodeFloats(n,o)},decodeDeltas:function(n,o){o=e(o);for(var r=[],t=this.decodeFloats(n,o),i=0,d=t.length;d>i;)for(var c=0;c<o.dimension;++c,++i)t[i]=r[c]=t[i]+(r[c]||0);return t},encodeFloats:function(n,o){o=e(o);for(var r=0,t=n.length;t>r;++r)n[r]=Math.round(n[r]*o.factor);return this.encodeSignedIntegers(n)},decodeFloats:function(n,o){o=e(o);for(var r=this.decodeSignedIntegers(n),t=0,i=r.length;i>t;++t)r[t]/=o.factor;return r},encodeSignedIntegers:function(e){for(var n=0,o=e.length;o>n;++n){var r=e[n];e[n]=0>r?~(r<<1):r<<1}return this.encodeUnsignedIntegers(e)},decodeSignedIntegers:function(e){for(var n=this.decodeUnsignedIntegers(e),o=0,r=n.length;r>o;++o){var t=n[o];n[o]=1&t?~(t>>1):t>>1}return n},encodeUnsignedIntegers:function(e){for(var n="",o=0,r=e.length;r>o;++o)n+=this.encodeUnsignedInteger(e[o]);return n},decodeUnsignedIntegers:function(e){for(var n=[],o=0,r=0,t=0,i=e.length;i>t;++t){var d=e.charCodeAt(t)-63;o|=(31&d)<<r,32>d?(n.push(o),o=0,r=0):r+=5}return n},encodeSignedInteger:function(e){return e=0>e?~(e<<1):e<<1,this.encodeUnsignedInteger(e)},encodeUnsignedInteger:function(e){for(var n,o="";e>=32;)n=(32|31&e)+63,o+=String.fromCharCode(n),e>>=5;return n=e+63,o+=String.fromCharCode(n)}};if("object"==typeof module&&"object"==typeof module.exports&&(module.exports=n),"object"==typeof L){L.Polyline.prototype.fromEncoded||(L.Polyline.fromEncoded=function(e,o){return new L.Polyline(n.decode(e),o)}),L.Polygon.prototype.fromEncoded||(L.Polygon.fromEncoded=function(e,o){return new L.Polygon(n.decode(e),o)});var o={encodePath:function(){return n.encode(this.getLatLngs())}};L.Polyline.prototype.encodePath||L.Polyline.include(o),L.Polygon.prototype.encodePath||L.Polygon.include(o),L.PolylineUtil=n}}();
 
+var colors = ['#444444', '#FF0C00', '#FF7800', '#FFF600', '#87FF00']
+
 function RoadSegment(opts) {
   return {
     roadSegment: opts.roadSegment || '',
@@ -42,8 +44,7 @@ function updateDownloadURL(roadSegments) {
 }
 
 $(function () {
-  var colors = ['#444444', '#FF0C00', '#FF7800', '#FFF600', '#87FF00'],
-  condition = ['Unknown', 'Poor', 'Fair', 'Good', 'Excellent'],
+  var condition = ['Unknown', 'Poor', 'Fair', 'Good', 'Excellent'],
   mcds = {
   	'15206': '',
   	'15228': '',
