@@ -158,5 +158,10 @@ $(function () {
   	  $(this).remove()
   	  updateDownloadURL(roadSegments)
   	}
+  }).on('click', '.google-static-map-link', function (e) {
+  	if ($(this).prop('href').length > 2048) {
+  		e.preventDefault()
+  		alert('Please zoom in on a specific road segment first.')
+  	}
   })
 })
