@@ -168,6 +168,7 @@ $(function () {
   	$(this).parent('li').toggleClass('active').siblings().removeClass('active')
   }).on('submit', '#edit form', function (e) {
   	e.preventDefault()
-  	window.open('https://dvrpcgis.maps.arcgis.com/home/signin.html?' + $(this).serialize() + '&returnUrl=' + $('#edit .active a').prop('href'))
+  	window.open('https://dvrpcgis.maps.arcgis.com/home/signin.html?' + $(this).serialize() + '&returnUrl=' + $(this).find('.active a').prop('href'))
+  	$('#edit').modal('close')
   })
 })
