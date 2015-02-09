@@ -134,7 +134,7 @@ $(function () {
       marker: false
     },
     edit: {
-      featureGroup: drawnItems
+      featureGroup: editable
     }
   }).addTo(map)
   
