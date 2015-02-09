@@ -67,6 +67,25 @@ $(function () {
   		return container
   	}
   }),
+  DrawComplete = L.Control.extend({
+  	options: {
+  		position: 'topleft'
+  	},
+  	onAdd: function () {
+  		var container = L.DomUtil.create('div', 'drawcomplete-control leaflet-bar leaflet-control'),
+  			btn = L.DomUtil.create('a', 'drawcomplete-btn', container)
+  		btn.href = '#'
+  		btn.title = 'Finish Adding Segments'
+  		btn.innerHTML = '<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>'
+  		L.DomEvent
+		    .on(btn, 'mousedown dblclick', L.DomEvent.stopPropagation)
+		    .on(btn, 'click', L.DomEvent.stop)
+		    .on(btn, 'click', function () {
+		    	console.log(editable)
+		    }, this)
+  		return container
+  	}
+  }),
   map = L.map('map', {
     center: [40.2837, -75.6143],
     zoom: 10,
@@ -89,7 +108,9 @@ $(function () {
     })
     
     $('.google-static-map-link').prop('href', 'https://maps.googleapis.com/maps/api/staticmap?size=640x640&maptype=hybrid&' + encoded.map(function (o) { return o.toUrlString()}).join('&'))
-  }).addControl(new Legend({position: 'bottomleft'})),
+  }).on('draw:created', function (e) {
+  	editable.addLayer(e.layer)
+  }).addControl(new Legend({position: 'bottomleft'})).addControl(new DrawComplete()),
   roads = L.geoJson(null, {
     style: function (feature) {
       return {
@@ -125,7 +146,18 @@ $(function () {
   	modal.find('.property-road-segment-area').text(e.layer.feature.properties.CARTWAY_WIDTH_FT / 3 * e.layer.feature.properties.SEG_LENGTH_MILES * 1760)
   	modal.modal('show')
   }).addTo(map),
-  roadSegments = []
+  roadSegments = [],
+  editable = L.featureGroup().addTo(map),
+  drawControl = new L.Control.Draw({
+    draw: {
+      rectangle: false,
+      circle: false,
+      marker: false
+    },
+    edit: {
+      featureGroup: editable
+    }
+  }).addTo(map)
   
   $.getJSON('data/local_roads.geojson', function (data) {
     roads.addData(data)
@@ -163,12 +195,5 @@ $(function () {
   		e.preventDefault()
   		alert('Please zoom in on a specific road segment first.')
   	}
-  }).on('click', '#edit .dropdown-menu a', function (e) {
-  	e.preventDefault()
-  	$(this).parent('li').toggleClass('active').siblings().removeClass('active')
-  }).on('submit', '#edit form', function (e) {
-  	e.preventDefault()
-  	window.open('https://dvrpcgis.maps.arcgis.com/home/signin.html?' + $(this).serialize() + '&returnUrl=' + $(this).find('.active a').prop('href'))
-  	$('#edit').modal('close')
   })
 })
