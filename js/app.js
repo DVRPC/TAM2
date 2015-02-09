@@ -125,7 +125,18 @@ $(function () {
   	modal.find('.property-road-segment-area').text(e.layer.feature.properties.CARTWAY_WIDTH_FT / 3 * e.layer.feature.properties.SEG_LENGTH_MILES * 1760)
   	modal.modal('show')
   }).addTo(map),
-  roadSegments = []
+  roadSegments = [],
+  editable = L.featureGroup().addTo(map),
+  drawControl = new L.Control.Draw({
+    draw: {
+      polygon: false,
+      circle: false,
+      marker: false
+    },
+    edit: {
+      featureGroup: drawnItems
+    }
+  }).addTo(map)
   
   $.getJSON('data/local_roads.geojson', function (data) {
     roads.addData(data)
