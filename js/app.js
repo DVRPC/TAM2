@@ -43,6 +43,20 @@ function updateDownloadURL(roadSegments) {
   $('.btn-create').attr('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvArray.join('\n')))
 }
 
+function polygonArea(points) {
+  var sum = 0.0;
+  var length = points.length;
+  if (length < 3) {
+    return sum;
+  }
+  points.forEach(function(d1, i1) {
+    i2 = (i1 + 1) % length;
+    d2 = points[i2];
+    sum += (d2[1] * d1[0]) - (d1[1] * d2[0]);
+  });
+  return sum / 2;
+}
+
 $(function () {
   var condition = ['Unknown', 'Poor', 'Fair', 'Good', 'Excellent'],
   mcds = {
@@ -81,7 +95,10 @@ $(function () {
 		    .on(btn, 'mousedown dblclick', L.DomEvent.stopPropagation)
 		    .on(btn, 'click', L.DomEvent.stop)
 		    .on(btn, 'click', function () {
-		    	console.log(editable)
+		    	var area = editable.getLayers().reduce(function (prev, cur) {
+		    	  return prev + polygonArea(cur.toGeoJSON().geometry.coordinates[0])
+		    	}, 0) * 1195990.04994
+		    	console.log(area)
 		    }, this)
   		return container
   	}
