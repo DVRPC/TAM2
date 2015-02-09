@@ -209,6 +209,7 @@
             <li><a data-toggle="modal" href="#help">How to Use</a></li>
             <li><a data-toggle="modal" href="#contact">Contact</a></li>
             <li><a class="google-static-map-link" href="#" target="_blank">Print Map</a></li>
+            <li><a data-toggle="modal" href="#edit">Edit Map</a></li>
           </ul>
         </div><!-- /.nav-collapse -->
       </div><!-- /.container -->
@@ -407,6 +408,54 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    
+    <div class="modal fade" id="edit">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">Log in to Edit Map</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal" role="form">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Municipality</label>
+                <div class="col-sm-9">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                      Select Municipality <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="http://dvrpcgis.maps.arcgis.com/home/webmap/viewer.html?webmap=f32da419fa614a819e6cc0ab333f4a58">New Hanover</a></li>
+                      <li><a href="http://dvrpcgis.maps.arcgis.com/home/webmap/viewer.html?webmap=44fdf373481f4afa9bd5fbd4af3295b0">Pottstown</a></li>
+                      <li><a href="http://dvrpcgis.maps.arcgis.com/home/webmap/viewer.html?webmap=ecfe61f5684e427b9fd140d4e1750585">Douglass</a></li>
+                      <li><a href="http://dvrpcgis.maps.arcgis.com/home/webmap/viewer.html?webmap=b23205a5091e4041849f6c66a711b0dd">East Coventry</a></li>
+                      <li><a href="http://dvrpcgis.maps.arcgis.com/home/webmap/viewer.html?webmap=a890d6ffbd4f4b168269e6c25185827b">Lower Pottsgrove</a></li>
+                      <li><a href="http://dvrpcgis.maps.arcgis.com/home/webmap/viewer.html?webmap=efdc68ac74534372af49f568f551e873">North Coventry</a></li>
+                      <li><a href="http://dvrpcgis.maps.arcgis.com/home/webmap/viewer.html?webmap=1cd58bd76f8e43a48841229249df0370">Upper Pottsgrove</a></li>
+                      <li><a href="http://dvrpcgis.maps.arcgis.com/home/webmap/viewer.html?webmap=2e3d56c4c93a4b4a96e38462b6733303">West Pottsgrove</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">User</label>
+                <div class="col-sm-9">
+                  <input class="form-control" name="username"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Password</label>
+                <div class="col-sm-9">
+                  <input class="form-control" type="password" name="password"/>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-default pull-right" data-dismiss="modal">Sign In</button>
+            </form>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
