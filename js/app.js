@@ -163,5 +163,11 @@ $(function () {
   		e.preventDefault()
   		alert('Please zoom in on a specific road segment first.')
   	}
+  }).on('click', '#edit .dropdown-menu a', function (e) {
+  	e.preventDefault()
+  	$(this).parent('li').toggleClass('active').siblings().removeClass('active')
+  }).on('submit', '#edit form', function (e) {
+  	e.preventDefault()
+  	window.open('https://dvrpcgis.maps.arcgis.com/home/signin.html?' + $(this).serialize() + '&returnUrl=' + $('#edit .active a').prop('href'))
   })
 })
