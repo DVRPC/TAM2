@@ -89,6 +89,8 @@ $(function () {
     })
     
     $('.google-static-map-link').prop('href', 'https://maps.googleapis.com/maps/api/staticmap?size=640x640&maptype=hybrid&' + encoded.map(function (o) { return o.toUrlString()}).join('&'))
+  }).on('draw:created', function (e) {
+  	editable.addLayer(e.layer)
   }).addControl(new Legend({position: 'bottomleft'})),
   roads = L.geoJson(null, {
     style: function (feature) {
