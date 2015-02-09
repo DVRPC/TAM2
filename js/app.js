@@ -57,6 +57,53 @@ function polygonArea(points) {
   return sum / 2;
 }
 
+function getDistance(array, decimals) {
+  if (Number.prototype.toRad === undefined) {
+    Number.prototype.toRad = function () {
+      return this * Math.PI / 180;
+    };
+  }
+
+  decimals = decimals || 3;
+  var earthRadius = 6378.137, // km
+    distance = 0,
+    len = array.length,
+    i,
+    x1,
+    x2,
+    lat1,
+    lat2,
+    lon1,
+    lon2,
+    dLat,
+    dLon,
+    a,
+    c,
+    d;
+  for (i = 0; (i + 1) < len; i++) {
+    x1 = array[i];
+    x2 = array[i + 1];
+
+    lat1 = parseFloat(x1[1]);
+    lat2 = parseFloat(x2[1]);
+    lon1 = parseFloat(x1[0]);
+    lon2 = parseFloat(x2[0]);
+
+    dLat = (lat2 - lat1).toRad();
+    dLon = (lon2 - lon1).toRad();
+    lat1 = lat1.toRad();
+    lat2 = lat2.toRad();
+
+    a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+    c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    d = earthRadius * c;
+    distance += d;
+  }
+  distance = Math.round(distance * Math.pow(10, decimals)) / Math.pow(10, decimals);
+  return distance;
+}
+
 $(function () {
   var condition = ['Unknown', 'Poor', 'Fair', 'Good', 'Excellent'],
   mcds = {
@@ -95,10 +142,28 @@ $(function () {
 		    .on(btn, 'mousedown dblclick', L.DomEvent.stopPropagation)
 		    .on(btn, 'click', L.DomEvent.stop)
 		    .on(btn, 'click', function () {
-		    	var area = editable.getLayers().reduce(function (prev, cur) {
-		    	  return prev + polygonArea(cur.toGeoJSON().geometry.coordinates[0])
-		    	}, 0) * 1195990.04994
-		    	console.log(area)
+		    	var modal = $('#modal-repair'),
+		    	  area = Math.abs(editable.getLayers().filter(function (l) { return l.toGeoJSON().geometry.type === 'Polygon' }).reduce(function (prev, cur) {
+  		    	  return prev + polygonArea(cur.toGeoJSON().geometry.coordinates[0])
+  		    	}, 0) * 1195990.04994),
+  		    	len = editable.getLayers().filter(function (l) { return l.toGeoJSON().geometry.type === 'LineString' }).reduce(function (prev, cur) {
+  		    	  return prev + polygonArea(cur.toGeoJSON().geometry.coordinates[0])
+  		    	}, 0) * 3280.8399
+		    	
+		    	modal.find('.property-road-segment').text('').prop('contentEditable', true).addClass('form-control')
+        	modal.find('.property-road-segment-type').text('').prop('contentEditable', true).addClass('form-control')
+        	modal.find('.property-road-segment-condition').text('')
+        	modal.find('.property-road-segment-federalaid').text('')
+        	modal.find('.property-road-segment-act32').text('')
+        	modal.find('.property-road-segment-length').text(len)
+        	modal.find('.property-road-segment-mcd').text('')
+        	modal.find('.property-road-segment-owner').text('')
+        	modal.find('.property-road-segment-cartway').text('')
+        	modal.find('.property-road-segment-road').text('')
+        	modal.find('.property-road-segment-liquidfuels').text('')
+        	modal.find('.property-road-segment-private').text('')
+        	modal.find('.property-road-segment-area').text(area)
+        	modal.modal('show')
 		    }, this)
   		return container
   	}
@@ -148,8 +213,8 @@ $(function () {
 	      return type = x
 	    }
 	  })
-  	modal.find('.property-road-segment').text(e.layer.feature.properties.LR_STREET_NAME + ': ' + e.layer.feature.properties.BEGIN_TERM_STREET_NAME + ' - ' + e.layer.feature.properties.END_TERM_STREET_NAME)
-  	modal.find('.property-road-segment-type').text(type.split('_')[0])
+  	modal.find('.property-road-segment').text(e.layer.feature.properties.LR_STREET_NAME + ': ' + e.layer.feature.properties.BEGIN_TERM_STREET_NAME + ' - ' + e.layer.feature.properties.END_TERM_STREET_NAME).prop('contentEditable', false).removeClass('form-control')
+  	modal.find('.property-road-segment-type').text(type.split('_')[0]).prop('contentEditable', false).removeClass('form-control')
   	modal.find('.property-road-segment-condition').text(condition[+e.layer.feature.properties.STRUCT_CONDITION_CD])
   	modal.find('.property-road-segment-federalaid').text(e.layer.feature.properties.IS_FED_AID)
   	modal.find('.property-road-segment-act32').text(e.layer.feature.properties.ACT32)
