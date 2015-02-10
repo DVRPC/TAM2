@@ -232,6 +232,13 @@ $(function () {
   editable = L.featureGroup().addTo(map),
   drawControl = new L.Control.Draw({
     draw: {
+      polyline: {
+        metric: false
+      },
+      polygon: {
+        metric: false,
+        showArea: true
+      }
       rectangle: false,
       circle: false,
       marker: false
