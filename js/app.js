@@ -65,43 +65,43 @@ function getDistance(array, decimals) {
   }
 
   decimals = decimals || 3;
-var earthRadius = 6378.137, // km
-distance = 0,
-len = array.length,
-i,
-x1,
-x2,
-lat1,
-lat2,
-lon1,
-lon2,
-dLat,
-dLon,
-a,
-c,
-d;
-for (i = 0; (i + 1) < len; i++) {
-  x1 = array[i];
-  x2 = array[i + 1];
-
-  lat1 = parseFloat(x1[1]);
-  lat2 = parseFloat(x2[1]);
-  lon1 = parseFloat(x1[0]);
-  lon2 = parseFloat(x2[0]);
-
-  dLat = (lat2 - lat1).toRad();
-  dLon = (lon2 - lon1).toRad();
-  lat1 = lat1.toRad();
-  lat2 = lat2.toRad();
-
-  a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-  Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
-  c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  d = earthRadius * c;
-  distance += d;
-}
-distance = Math.round(distance * Math.pow(10, decimals)) / Math.pow(10, decimals);
-return distance;
+  var earthRadius = 6378.137, // km
+  distance = 0,
+  len = array.length,
+  i,
+  x1,
+  x2,
+  lat1,
+  lat2,
+  lon1,
+  lon2,
+  dLat,
+  dLon,
+  a,
+  c,
+  d;
+  for (i = 0; (i + 1) < len; i++) {
+    x1 = array[i];
+    x2 = array[i + 1];
+  
+    lat1 = parseFloat(x1[1]);
+    lat2 = parseFloat(x2[1]);
+    lon1 = parseFloat(x1[0]);
+    lon2 = parseFloat(x2[0]);
+  
+    dLat = (lat2 - lat1).toRad();
+    dLon = (lon2 - lon1).toRad();
+    lat1 = lat1.toRad();
+    lat2 = lat2.toRad();
+  
+    a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+    c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    d = earthRadius * c;
+    distance += d;
+  }
+  distance = Math.round(distance * Math.pow(10, decimals)) / Math.pow(10, decimals);
+  return distance;
 }
 
 $(function () {
