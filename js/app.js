@@ -252,12 +252,11 @@ $(function () {
     }
   }).addTo(map)
 
-  $.getJSON('data/local_roads.geojson', function (data) {
+  $.getJSON('data/local_roads.geojson', function (data, status, xhr) {
     roads.addData(data)
     map.fitBounds(roads.getBounds())
+    $('.page-last-modified').text((xhr.getResponseHeader('Last-Modified') || document.lastModified).split(' ')[0])
   })
-
-  $('.page-last-modified').text(document.lastModified.split(' ')[0])
 
   $(document).on('click', '[data-toggle="offcanvas"]', function () {
     $('.row-offcanvas').toggleClass('active')
