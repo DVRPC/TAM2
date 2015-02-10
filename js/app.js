@@ -163,6 +163,8 @@ $(function () {
         modal.find('.property-road-segment-liquidfuels').text('')
         modal.find('.property-road-segment-private').text('')
         modal.find('.property-road-segment-area').text(area)
+        modal.find('.active').removeClass('active')
+        modal.find('.help-block').text('')
         modal.modal('show')
       }, this)
       return container
@@ -226,6 +228,8 @@ $(function () {
     modal.find('.property-road-segment-liquidfuels').text(e.layer.feature.properties.IS_LIQUID_FUELS_ROAD)
     modal.find('.property-road-segment-private').text(e.layer.feature.properties.IS_PRIVATE_ROAD)
     modal.find('.property-road-segment-area').text(e.layer.feature.properties.CARTWAY_WIDTH_FT / 3 * e.layer.feature.properties.SEG_LENGTH_MILES * 1760)
+    modal.find('.active').removeClass('active')
+    modal.find('.help-block').text('')
     modal.modal('show')
   }).addTo(map),
   roadSegments = [],
