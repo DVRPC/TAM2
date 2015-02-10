@@ -253,9 +253,11 @@ $(function () {
   }).addTo(map)
 
   $.getJSON('data/local_roads.geojson', function (data, status, xhr) {
+    var date = new Date(xhr.getResponseHeader('Last-Modified') || document.lastModified)
+    
     roads.addData(data)
     map.fitBounds(roads.getBounds())
-    $('.page-last-modified').text((xhr.getResponseHeader('Last-Modified') || document.lastModified).split(' ')[0])
+    $('.page-last-modified').text([date.getMonth() + 1, date.getDate(), date.getFullYear()].join('/'))
   })
 
   $(document).on('click', '[data-toggle="offcanvas"]', function () {
