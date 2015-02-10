@@ -147,7 +147,7 @@ $(function () {
   		    	  return prev + polygonArea(cur.toGeoJSON().geometry.coordinates[0])
   		    	}, 0) * 1195990.04994),
   		    	len = editable.getLayers().filter(function (l) { return l.toGeoJSON().geometry.type === 'LineString' }).reduce(function (prev, cur) {
-  		    	  return prev + polygonArea(cur.toGeoJSON().geometry.coordinates[0])
+  		    	  return prev + getDistance(cur.toGeoJSON().geometry.coordinates[0])
   		    	}, 0) * 3280.8399
 		    	
 		    	modal.find('.property-road-segment').text('').prop('contentEditable', true).addClass('form-control')
