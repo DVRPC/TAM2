@@ -131,7 +131,7 @@ $(function () {
         var modal = $('#modal-repair'),
         area = Math.abs(editable.getLayers().filter(function (l) { return l.toGeoJSON().geometry.type === 'Polygon' }).reduce(function (prev, cur) {
           return prev + L.GeometryUtil.geodesicArea(cur.getLatLngs())
-        }, 0) * 1195990.046296),
+        }, 0) * 1.195990046296),
         len = editable.getLayers().filter(function (l) { return l.toGeoJSON().geometry.type === 'LineString' }).reduce(function (prev, cur) {
           return prev + getDistance(cur.toGeoJSON().geometry.coordinates)
         }, 0) * 0.62137119
