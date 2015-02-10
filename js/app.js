@@ -238,7 +238,7 @@ $(function () {
       polygon: {
         metric: false,
         showArea: true
-      }
+      },
       rectangle: false,
       circle: false,
       marker: false
