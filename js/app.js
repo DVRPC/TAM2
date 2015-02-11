@@ -17,7 +17,6 @@ var colors = ['#444444', '#FF0C00', '#FF7800', '#FFF600', '#87FF00']
 function RoadSegment(opts) {
   return {
     roadSegment: opts.roadSegment || '',
-    surfaceType: opts.surfaceType || '',
     segmentLength: opts.segmentLength || 0,
     segmentArea: opts.segmentArea || 0,
     repairTypes: opts.repairTypes || []
@@ -27,17 +26,17 @@ function RoadSegment(opts) {
 function EncodedLayer(layer) {
   return {
     toUrlString: function () {
-      return 'path=color:0x' + colors[+layer.feature.properties.STRUCT_CONDITION_CD].slice(1) + 'ff|enc:' + L.PolylineUtil.encode(layer.getLatLngs())
+      return 'path=color:0x' + colors[+layer.feature.properties.STRUCT_CON].slice(1) + 'ff|enc:' + L.PolylineUtil.encode(layer.getLatLngs())
     }
   }
 }
 
 function updateDownloadURL(roadSegments) {
-  var csvArray = ['Road Segment,Surface Type,Repair Type,Segment Length,Units,Cost per Unit,Total Cost'],
+  var csvArray = ['Road Segment,Repair Type,Segment Length,Units,Cost per Unit,Total Cost'],
   linearRepairs = ['Shoulder Cut', 'Double-Yellow Centerline', 'Single-White Edge Line', 'Crack Seal', 'Guide Rail']
   roadSegments.forEach(function (rs) {
     rs.repairTypes.forEach(function (repair) {
-      csvArray.push([rs.roadSegment, rs.surfaceType, repair, $.inArray(repair, linearRepairs) > -1 ? rs.segmentLength * 5280 : rs.segmentArea, $.inArray(repair, linearRepairs) > -1 ? 'lf' : 'sq yd', '', ''].join(','))
+      csvArray.push([rs.roadSegment, repair, $.inArray(repair, linearRepairs) > -1 ? rs.segmentLength * 5280 : rs.segmentArea, $.inArray(repair, linearRepairs) > -1 ? 'lf' : 'sq yd', '', ''].join(','))
     })
   })
   $('.btn-create').attr('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvArray.join('\n')))
@@ -92,16 +91,6 @@ function getDistance(array, decimals) {
 
 $(function () {
   var condition = ['Unknown', 'Poor', 'Fair', 'Good', 'Excellent'],
-  mcds = {
-    '15206': '',
-    '15228': '',
-    '46106': '',
-    '46112': '',
-    '46114': '',
-    '46201': '',
-    '46212': '',
-    '46416': ''
-  },
   Legend = L.Control.extend({
     onAdd: function () {
       var container = L.DomUtil.create('div', 'legend-control'),
@@ -137,7 +126,6 @@ $(function () {
         }, 0) * 0.62137119
 
         modal.find('.property-road-segment').text('').prop('contentEditable', true).addClass('form-control')
-        modal.find('.property-road-segment-type').text('').prop('contentEditable', true).addClass('form-control')
         modal.find('.property-road-segment-condition').text('')
         modal.find('.property-road-segment-federalaid').text('')
         modal.find('.property-road-segment-act32').text('')
@@ -184,36 +172,29 @@ $(function () {
   roads = L.geoJson(null, {
     style: function (feature) {
       return {
-        color: colors[+feature.properties.STRUCT_CONDITION_CD],
+        color: colors[+feature.properties.STRUCT_CON],
         weight: 2,
         opacity: 1
       }
     },
     onEachFeature: function (feature, layer) {
-      layer.bindLabel(feature.properties.LR_STREET_NAME + ': ' + feature.properties.BEGIN_TERM_STREET_NAME + ' - ' + feature.properties.END_TERM_STREET_NAME)
+      layer.bindLabel(feature.properties.LR_STREET_ + ': ' + feature.properties.BEGIN_TERM + ' - ' + feature.properties.END_TERM_S)
     }
   }).on('click', function (e) {
-    var modal = $('#modal-repair'),
-    type
+    var modal = $('#modal-repair')
 
-    ['BITUMINOUS_MILES', 'BRICK_MILES', 'CONCRETE_MILES', 'GRAVEL_MILES', 'SEAL_COATED_MILES', 'UNIMPROVED_MILES'].some(function (x) {
-      if (e.layer.feature.properties.hasOwnProperty(x) && e.layer.feature.properties[x] > 0) {
-        return type = x
-      }
-    })
-    modal.find('.property-road-segment').text(e.layer.feature.properties.LR_STREET_NAME + ': ' + e.layer.feature.properties.BEGIN_TERM_STREET_NAME + ' - ' + e.layer.feature.properties.END_TERM_STREET_NAME).prop('contentEditable', false).removeClass('form-control')
-    modal.find('.property-road-segment-type').text(type.split('_')[0]).prop('contentEditable', false).removeClass('form-control')
-    modal.find('.property-road-segment-condition').text(condition[+e.layer.feature.properties.STRUCT_CONDITION_CD])
+    modal.find('.property-road-segment').text(e.layer.feature.properties.LR_STREET_ + ': ' + e.layer.feature.properties.BEGIN_TERM + ' - ' + e.layer.feature.properties.END_TERM_S).prop('contentEditable', false).removeClass('form-control')
+    modal.find('.property-road-segment-condition').text(condition[+e.layer.feature.properties.STRUCT_CON])
     modal.find('.property-road-segment-federalaid').text(e.layer.feature.properties.IS_FED_AID)
-    modal.find('.property-road-segment-act32').text(e.layer.feature.properties.ACT32)
-    modal.find('.property-road-segment-length').text(e.layer.feature.properties.SEG_LENGTH_MILES)
-    modal.find('.property-road-segment-mcd').text(mcds[e.layer.feature.properties.MUNICIPALITY_CD])
-    modal.find('.property-road-segment-owner').text(e.layer.feature.properties.LR_OWNER_CD)
-    modal.find('.property-road-segment-cartway').text(e.layer.feature.properties.CARTWAY_WIDTH_FT)
-    modal.find('.property-road-segment-road').text(e.layer.feature.properties.ROAD_TYPE_CD)
-    modal.find('.property-road-segment-liquidfuels').text(e.layer.feature.properties.IS_LIQUID_FUELS_ROAD)
-    modal.find('.property-road-segment-private').text(e.layer.feature.properties.IS_PRIVATE_ROAD)
-    modal.find('.property-road-segment-area').text(e.layer.feature.properties.CARTWAY_WIDTH_FT / 3 * e.layer.feature.properties.SEG_LENGTH_MILES * 1760)
+    //modal.find('.property-road-segment-act32').text(e.layer.feature.properties.ACT32)
+    modal.find('.property-road-segment-length').text(e.layer.feature.properties.SEG_LENGTH)
+    modal.find('.property-road-segment-mcd').text(e.layer.feature.properties.MCD)
+    modal.find('.property-road-segment-owner').text(e.layer.feature.properties.LR_OWNER_C)
+    modal.find('.property-road-segment-cartway').text(e.layer.feature.properties.CARTWAY_WI)
+    modal.find('.property-road-segment-road').text(e.layer.feature.properties.ROAD_TYPE_)
+    modal.find('.property-road-segment-liquidfuels').text(e.layer.feature.properties.IS_LIQUID_)
+    modal.find('.property-road-segment-private').text(e.layer.feature.properties.IS_PRIVATE)
+    modal.find('.property-road-segment-area').text(e.layer.feature.properties.CARTWAY_WI / 3 * e.layer.feature.properties.SEG_LENGTH * 1760)
     modal.find('.active').removeClass('active')
     modal.find('.help-block').text('')
     modal.modal('show')
@@ -257,7 +238,6 @@ $(function () {
 
     roadSegments.push(new RoadSegment({
       roadSegment: modal.find('.property-road-segment').text(),
-      surfaceType: modal.find('.property-road-segment-type').text(),
       segmentLength: modal.find('.property-road-segment-length').text(),
       segmentArea: modal.find('.property-road-segment-area').text(),
       repairTypes: modal.find('.help-block').text().split(', ')
