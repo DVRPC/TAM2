@@ -199,6 +199,60 @@ $(function () {
     modal.find('.help-block').text('')
     modal.modal('show')
   }).addTo(map),
+  bridges = L.geoJson(null, {
+    pointToLayer: function (feature, latlng) {
+      return L.circleMarker(latlng, {
+        radius: 5,
+        color: '#000',
+        weight: 1,
+        opacity: 1,
+        fillColor: '#4682B4',
+        fillOpacity: 0.8
+      })
+    },
+    onEachFeature: function (feature, layer) {
+      if (feature.properties) {
+        layer.bindPopup('<table class="table table-striped table-bordered table-condensed">' +
+                        '<tr><th>Structure Name</th><td>' + feature.properties.LCL_STRUCT + '</td></tr>' +
+                        '<tr><th>Bridge Owner</th><td>' + feature.properties.BRIDGE_OWN + '</td></tr>' +
+                        '<tr><th>Feature Intersected</th><td>' + feature.properties.FEATURE_IN + '</td></tr>' +
+                        '<tr><th>Facility Carried</th><td>' + feature.properties.FACILITY_C + '</td></tr>' +
+                        '<tr><th>Structural Configuration</th><td>' + feature.properties.STRUCT_CON + '</td></tr>' +
+                        '<tr><th>Notes</th><td>' + feature.properties.NOTE + '</td></tr>'+
+                        '<tr><th>Municipality</th><td>' + feature.properties.MUNICIPALI + '</td></tr>' +
+                        '<tr><th>Structural Length (ft)</th><td>' + feature.properties.STRUCT_LEN + '</td></tr>' +
+                        '<tr><th>Structural Width (ft)</th><td>' + feature.properties.STRUCT_WID + '</td></tr>' +
+                        '<tr><th>Structural Height (ft)</th><td>' + feature.properties.STRUCT_HEI + '</td></tr>' +             
+                        '<tr><th>Google Street View</th><td><a href="' + feature.properties.GOOGLE + '" target="_blank">Google Street View</a></td></tr>' +
+                        '<table>')
+      }
+    }
+  }).addTo(map),
+  penndotbridges = L.geoJson(null, {
+    pointToLayer: function (feature, latlng) {
+      return L.circleMarker(latlng, {
+        radius: 5,
+        color: '#000',
+        weight: 1,
+        opacity: 1,
+        fillColor: '#800080',
+        fillOpacity: 0.8
+      })
+    },
+    onEachFeature: function (feature, layer) {
+      if (feature.properties) {
+        layer.bindPopup('<table class="table table-striped table-bordered table-condensed">' +
+                        '<tr><th>Feature Intersected</th><td>' + feature.properties.FEATINT + '</td></tr>' +
+                        '<tr><th>Facility Carried</th><td>' + feature.properties.FACILITY + '</td></tr>' +
+                        '<tr><th>Length (ft)</th><td>' + feature.properties.LENGTH + '</td></tr>' +
+                        '<tr><th>Deck Width (ft)</th><td>' + feature.properties.DECKWIDTH + '</td></tr>' +
+                        '<tr><th>Sufficiency Rating</th><td>' + feature.properties.SUFF_RATE + '</td></tr>' +
+                        '<tr><th>Structurally Deficient</th><td>' + feature.properties.SD  + '</td></tr>' +
+                        '<tr><th>Google Street View</th><td><a href="' + feature.properties.GOOGLE + '" target="_blank">Googel Street View</a></td></tr>' +
+                        '<table>')
+      }
+    }
+  }).addTo(map),
   roadSegments = [],
   editable = L.featureGroup().addTo(map),
   drawControl = new L.Control.Draw({
@@ -225,6 +279,14 @@ $(function () {
     roads.addData(data)
     map.fitBounds(roads.getBounds())
     $('.page-last-modified').text([date.getMonth() + 1, date.getDate(), date.getFullYear()].join('/'))
+  })
+
+  $.getJSON('data/local_bridges.geojson', function (data, status, xhr) {
+    bridges.addData(data)
+  })
+
+  $.getJSON('data/penndot_bridges.geojson', function (data, status, xhr) {
+    penndotbridges.addData(data)
   })
 
   $(document).on('click', '[data-toggle="offcanvas"]', function () {
